@@ -1,0 +1,24 @@
+% Sum up the weekly change
+weeklycompany_dataReturn = 0;
+weeklyMarket_dataReturn = 0;
+weeklyRisk_free_security_dataReturn = 0;
+for i = 2:length(company_data)
+    weeklycompany_dataReturn = weeklycompany_dataReturn + ((company_data(i - 1, 2) - company_data(i, 2)) / company_data(i, 2)) * 100;
+    weeklyMarket_dataReturn = weeklyMarket_dataReturn + ((Market_data(i - 1, 2) - Market_data(i, 2)) / Market_data(i, 2)) * 100;
+    weeklyRisk_free_security_dataReturn = weeklyRisk_free_security_dataReturn + ((Risk_free_security_data(i - 1, 2) - Risk_free_security_data(i, 2)) / Risk_free_security_data(i, 2)) * 100;
+end
+
+% Divide by the number of computations to get the average weekly percentage changes
+avgWeeklyCompany_data = weeklyCompany_dataReturn / (length(Company_data) - 1);
+avgWeeklyMarket_data = weeklyMarket_dataReturn  / (length(Market_data) - 1);
+avgWeeklyRisk_free_security_data = weeklyRisk_free_security_dataReturn  / (length(Risk_free_security_data) - 1);
+
+% Find beta
+% B = (ra - rf) / (rm - rf)
+beta = (avgWeeklyCompany_data - avgWeeklyRisk_free_security_data) / (avgWeeklyMarket_data - avgWeeklyRisk_free_security_data);
+
+% Find alpha
+% A = ra - (rf + (rm - rf) * beta)
+alpha = avgWeeklyCompany_data - (avgWeeklyRisk_free_security_data + (avgWeeklymarket_data - avgWeeklyRisk_free_security_data) * beta);
+
+end
